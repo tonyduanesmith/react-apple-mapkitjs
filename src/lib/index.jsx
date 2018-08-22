@@ -3,6 +3,7 @@ import React, { Component, Fragment } from "react";
 class AppleMaps extends Component {
   	componentDidMount(){
 		const { token, longitude, latitude } = this.props
+
     	mapkit.init({
       		authorizationCallback: function (done) {
         		done(token);
@@ -20,7 +21,6 @@ class AppleMaps extends Component {
 
 	zoomLevel(){
 		const { zoomLevel } = this.props
-		console.log(zoomLevel)
 		switch(zoomLevel){
 			case 0:
 				return 300

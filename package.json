@@ -40,7 +40,5 @@
     "type": "git",
     "url": "git@github.com:yogaboll/react-npm-component-starter.git"
   },
-  "dependencies": {
-    "apple-mapkit-js": "^6.0.1"
-  }
+  "dependencies": {}
 }
