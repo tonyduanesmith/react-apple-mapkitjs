@@ -10,7 +10,13 @@
     "docs": "webpack-dev-server --mode development",
     "docs:prod": "webpack --mode production"
   },
-  "keywords": [],
+  "keywords": [
+    "apple",
+    "map",
+    "mapkit",
+    "mapkitjs",
+    "react"
+  ],
   "license": "MIT",
   "peerDependencies": {
     "react": "^15.3.0 || ^16.2.0",
@@ -35,10 +41,5 @@
     "webpack-dev-server": "^3.1.3"
   },
   "author": "tonyduanesmith",
-  "homepage": "https://github.com/yogaboll/react-npm-component-starter",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:yogaboll/react-npm-component-starter.git"
-  },
   "dependencies": {}
 }
