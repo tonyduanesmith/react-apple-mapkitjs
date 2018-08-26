@@ -24,7 +24,7 @@ https://mapkitjs.rubeng.nl/#/
 
 Import the AppleMaps component into your project
 ```jsx
-    import { AppleMaps } from 'react-apple-mapkitjs
+    import { AppleMaps } from 'react-apple-mapkitjs'
 ```
 <br>
 The only prop that is required is the token prop, without this you will get a "initialization failed" in the console
@@ -40,22 +40,22 @@ If the access token is correct then the map will default to Leeds, UK
 The AppleMaps component takes additional props to adjust the map view and zoom level
 
 ```jsx
-    <AppleMaps 
+    <AppleMaps
         token="your access token here"
         longitude={30.8008}
         latitude={-1.5491}
         zoomLevel={1}
-    >
+    />
 ```
 You can also use additional Annotation components to put customizable drop pins on your apple map. The Annotation Components must be child components of AppleMaps.
 
 First import both the AppleMaps and the Annotation component
 ```jsx
-import { AppleMaps, Annotation }
+import { AppleMaps, Annotation } from 'react-apple-mapkitjs'
 ```
 then add to your react application
 ```jsx
-<AppleMaps 
+<AppleMaps
     token="your access token here"
     longitude={53.8008}
     latitude={-1.5491}
@@ -78,6 +78,7 @@ then add to your react application
         subtitle="work"
         selected={false}
     />
+</AppleMaps>
 ```
 Most of the props to the Annotation component are self explanatory
 ***
