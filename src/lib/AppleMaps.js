@@ -19,21 +19,24 @@ class AppleMaps extends Component {
       		new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
     	);
     	var map = new mapkit.Map("map");
+
+		if(children){
+			//	CurrentLocationOverride
+			children.forEach(child => {
+				if (child.type.name === 'CurrentLocationOverride'){
+					this.createCurrentLocationOverride(map, child.props)
+				}
+			})
+	
+			//	Annotations
+			children.forEach(child => {
+				if(child.type.name === "Annotation"){
+					this.createAnnotation(map, child.props)
+				}
+			})
+		}
+
 		map.region = coords;
-
-		//	CurrentLocationOverride
-		children.forEach(child => {
-			if (child.type.name === 'CurrentLocationOverride'){
-				this.createCurrentLocationOverride(map, child.props)
-			}
-		})
-
-		//	Annotations
-		children.forEach(child => {
-			if(child.type.name === "Annotation"){
-				this.createAnnotation(map, child.props)
-			}
-		})
 	}
 
 	createAnnotation(map, options){
@@ -45,7 +48,7 @@ class AppleMaps extends Component {
 		newAnnotation.title = title;
 		newAnnotation.subtitle = subtitle;
 		newAnnotation.selected = selected;
-		newAnnotation.glyphText = glyphText;
+		(glyphText) ? newAnnotation.glyphText = glyphText : ''
 		map.showItems([newAnnotation])
 	}
 
@@ -122,7 +125,9 @@ class AppleMaps extends Component {
 AppleMaps.defaultProps = {
 	width: '100wh',
 	height: '100vh',
-	zoomLevel: 6
+	zoomLevel: 6,
+	longitude: 53.8008,
+	latitude: -1.5491
 }
 
 export default AppleMaps;
