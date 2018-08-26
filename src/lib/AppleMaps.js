@@ -46,20 +46,20 @@ class AppleMaps extends Component {
 		newAnnotation.subtitle = subtitle;
 		newAnnotation.selected = selected;
 		newAnnotation.glyphText = glyphText;
-
 		map.showItems([newAnnotation])
 	}
 
 	createCurrentLocationOverride(map, options){
-		const coordinate = new mapkit.Coordinate(53.8158, -1.6017)
+		const { longitude, latitude, direction } = options
+		const coordinate = new mapkit.Coordinate(longitude, latitude)
 		const currentLocation = new mapkit.Annotation(
 			coordinate,
-			(coordinate, options) => {
+			() => {
 				let canvas = document.createElement("canvas")
 				let ctx = canvas.getContext("2d");
 				ctx.beginPath();
 				ctx.translate(150, 135);
-				ctx.rotate(0 * Math.PI / 180)
+				ctx.rotate(direction * Math.PI / 180)
 				ctx.lineCap = "round";
 				ctx.moveTo(0, 7)
 				ctx.lineTo(10, 12)
@@ -71,7 +71,8 @@ class AppleMaps extends Component {
 				ctx.stroke()
 				ctx.fill()
 				return canvas;
-			}
+			},
+			options
 		);
 		map.showItems([currentLocation])
 	}

@@ -30,7 +30,11 @@ function Demo() {
 					selected="true"
 					glyphText=""
 				/>
-				<CurrentLocationOverride />
+				<CurrentLocationOverride 
+					longitude={53.8158}
+					latitude={-1.5017}
+					direction={90}
+				/>
 			</AppleMaps>
 		</Fragment>
 	);
