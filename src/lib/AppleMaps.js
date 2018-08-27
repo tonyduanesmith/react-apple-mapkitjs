@@ -3,7 +3,8 @@ import React, { Component } from "react";
 class AppleMaps extends Component {
   	componentDidMount(){
 		const { token, children } = this.props
-
+		this.canvas = document.createElement("canvas")
+		this.canvas.id = 'currentLocationOverride'
     	mapkit.init({
       		authorizationCallback: function (done) {
         		done(token);
@@ -39,7 +40,6 @@ class AppleMaps extends Component {
 			}
 		}
 				
-
 		//	Set main coords
 		this.setMainCoords()
 	}
@@ -53,12 +53,12 @@ class AppleMaps extends Component {
 			if (children !== undefined && children.length) {
 				children.forEach(child => {
 					if (child.type.name === "CurrentLocationOverride") {
-						this.createCurrentLocationOverride(child.props)
+						this.updateCurrentLocationOverride(child.props)
 					}
 				})
 			} else if (children !== undefined && children.props) {
 				if (children.type.name === "CurrentLocationOverride") {
-					this.createCurrentLocationOverride(children.props)
+					this.updateCurrentLocationOverride(children.props)
 				}
 			}
   		}
@@ -85,7 +85,7 @@ class AppleMaps extends Component {
 		this.map.showItems([newAnnotation])
 	}
 
-	createCurrentLocationOverride(locationOptions){
+	createCurrentLocationOverride(locationOptions) {
 		const { longitude, latitude, direction } = locationOptions
 		// AppleMaps needs options structured this way
 		const options = {
@@ -94,12 +94,10 @@ class AppleMaps extends Component {
 			}
 		}
 		const coordinate = new mapkit.Coordinate(longitude, latitude)
-		const currentLocation = new mapkit.Annotation(
+		this.currentLocation = new mapkit.Annotation(
 			coordinate,
 			() => {
-				let canvas = document.createElement("canvas")
-				let ctx = canvas.getContext("2d");
-				ctx.clearRect(0, 0, 500, 500);
+				let ctx = this.canvas.getContext("2d");
 				ctx.beginPath();
 				ctx.translate(150, 135);
 				ctx.rotate(options.data.direction * Math.PI / 180)
@@ -113,11 +111,17 @@ class AppleMaps extends Component {
 				ctx.strokeStyle = '#08F'
 				ctx.stroke()
 				ctx.fill()
-				return canvas;
+				return this.canvas;
 			},
 			options
 		);
-		this.map.showItems([currentLocation])
+		this.map.showItems([this.currentLocation])
+	}
+
+	updateCurrentLocationOverride(locationOptions) {
+		const { longitude, latitude } = locationOptions
+		const coordinate = new mapkit.Coordinate(longitude, latitude)
+		this.currentLocation.coordinate = coordinate
 	}
 
 	setMainCoords(){

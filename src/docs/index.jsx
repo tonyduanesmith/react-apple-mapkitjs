@@ -35,6 +35,11 @@ function Demo() {
 					latitude={-1.4017}
 					direction={90}
 				/>
+				<CurrentLocationOverride 
+					longitude={53.7158}
+					latitude={-1.4017}
+					direction={90}
+				/>
 			</AppleMaps>
 		</Fragment>
 	);
