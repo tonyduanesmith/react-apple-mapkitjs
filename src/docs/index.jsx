@@ -26,15 +26,15 @@ function Demo() {
 					longitude={53.8158}
 					latitude={-1.5017}
 					color="#349576"
-					title="Apple"
-					subtitle="work"
+					title="Droppin"
+					subtitle="home"
 					selected={false}
 				/>
-				{/* <CurrentLocationOverride 
-					longitude={53.8158}
-					latitude={-1.5017}
+				<CurrentLocationOverride 
+					longitude={53.7158}
+					latitude={-1.4017}
 					direction={90}
-				/> */}
+				/>
 			</AppleMaps>
 		</Fragment>
 	);

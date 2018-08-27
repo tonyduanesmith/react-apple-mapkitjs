@@ -1,46 +1,79 @@
 import React, { Component } from "react";
 
 class AppleMaps extends Component {
-	constructor(props){
-		super(props)
-		this.state = {}
-	}
   	componentDidMount(){
-		const { token, longitude, latitude, children } = this.props
+		const { token, children } = this.props
 
     	mapkit.init({
       		authorizationCallback: function (done) {
         		done(token);
       		}
-    	});
+		});
+		
+    	this.map = new mapkit.Map("map");
 
-    	var coords = new mapkit.CoordinateRegion(
-			new mapkit.Coordinate(longitude, latitude),
-      		new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
-    	);
-    	var map = new mapkit.Map("map");
-
-		if(children){
-			//	CurrentLocationOverride
-			children.forEach(child => {
-				if (child.type.name === 'CurrentLocationOverride'){
-					this.createCurrentLocationOverride(map, child.props)
-				}
-			})
-	
-			//	Annotations
+		//	Annotations
+		if(children !== undefined && children.length){
 			children.forEach(child => {
 				if(child.type.name === "Annotation"){
-					this.createAnnotation(map, child.props)
+					this.createAnnotation(child.props)
 				}
 			})
+		}else if(children !== undefined && children.props){
+			if (children.type.name === "Annotation") {
+				this.createAnnotation(children.props)
+			}
 		}
 
-		map.region = coords;
+
+		// Current Location Override
+		if (children !== undefined && children.length) {
+			children.forEach(child => {
+				if (child.type.name === "CurrentLocationOverride") {
+					this.createCurrentLocationOverride(child.props)
+				}
+			})
+		} else if (children !== undefined && children.props) {
+			if (children.type.name === "CurrentLocationOverride") {
+				this.createCurrentLocationOverride(children.props)
+			}
+		}
+				
+
+		//	Set main coords
+		this.setMainCoords()
 	}
 
-	createAnnotation(map, options){
-		const { longitude, latitude, color, glyphText, selected, title, subtitle } = options
+  	componentDidUpdate(prevProps) {
+		const { children } = this.props
+		const checkLongitudeChange = children[0].props.longitude !== prevProps.children[0].props.longitude
+		const checkLatitudeChange = children[0].props.latitude !== prevProps.children[0].props.latitude
+		const checkDirectionChange = children[0].props.direction !== prevProps.children[0].props.direction
+  		if (checkLongitudeChange || checkLatitudeChange || checkDirectionChange) {
+			if (children !== undefined && children.length) {
+				children.forEach(child => {
+					if (child.type.name === "CurrentLocationOverride") {
+						this.createCurrentLocationOverride(child.props)
+					}
+				})
+			} else if (children !== undefined && children.props) {
+				if (children.type.name === "CurrentLocationOverride") {
+					this.createCurrentLocationOverride(children.props)
+				}
+			}
+  		}
+  	}
+
+	createAnnotation(annotationOptions){
+		const {
+			longitude,
+			latitude,
+			color,
+			glyphText,
+			selected,
+			title,
+			subtitle
+		} = annotationOptions
 		let MarkerAnnotation = mapkit.MarkerAnnotation
 		let coords = new mapkit.Coordinate(longitude, latitude)
 		let newAnnotation = new MarkerAnnotation(coords);
@@ -49,20 +82,27 @@ class AppleMaps extends Component {
 		newAnnotation.subtitle = subtitle;
 		newAnnotation.selected = selected;
 		(glyphText) ? newAnnotation.glyphText = glyphText : ''
-		map.showItems([newAnnotation])
+		this.map.showItems([newAnnotation])
 	}
 
-	createCurrentLocationOverride(map, options){
-		const { longitude, latitude, direction } = options
+	createCurrentLocationOverride(locationOptions){
+		const { longitude, latitude, direction } = locationOptions
+		// AppleMaps needs options structured this way
+		const options = {
+			data: {
+				direction: direction
+			}
+		}
 		const coordinate = new mapkit.Coordinate(longitude, latitude)
 		const currentLocation = new mapkit.Annotation(
 			coordinate,
 			() => {
 				let canvas = document.createElement("canvas")
 				let ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, 500, 500);
 				ctx.beginPath();
 				ctx.translate(150, 135);
-				ctx.rotate(direction * Math.PI / 180)
+				ctx.rotate(options.data.direction * Math.PI / 180)
 				ctx.lineCap = "round";
 				ctx.moveTo(0, 7)
 				ctx.lineTo(10, 12)
@@ -77,7 +117,16 @@ class AppleMaps extends Component {
 			},
 			options
 		);
-		map.showItems([currentLocation])
+		this.map.showItems([currentLocation])
+	}
+
+	setMainCoords(){
+		const { longitude, latitude } = this.props
+    	const mainCoords = new mapkit.CoordinateRegion(
+    		new mapkit.Coordinate(longitude, latitude),
+    		new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
+		);
+		this.map.region = mainCoords;
 	}
 
 	zoomLevel(){
