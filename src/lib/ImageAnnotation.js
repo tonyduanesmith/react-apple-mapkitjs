@@ -4,4 +4,8 @@ const ImageAnnotation = () => {
 	return <Fragment />
 }
 
+ImageAnnotation.defaultProps = {
+	visible: true
+}
+
 export default ImageAnnotation

@@ -30,6 +30,7 @@ function Demo() {
 					subtitle="need feeding"
 					selected={true}
 					url='./assets/cat.jpeg'
+					visible={true}
 				/>
 				<Annotation 
 					longitude={53.8158}

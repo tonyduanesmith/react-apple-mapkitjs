@@ -97,7 +97,8 @@ class AppleMaps extends Component {
 			glyphText,
 			selected,
 			title,
-			subtitle
+			subtitle,
+			visible
 		} = annotationOptions
 		let MarkerAnnotation = mapkit.MarkerAnnotation
 		let coords = new mapkit.Coordinate(longitude, latitude)
@@ -105,7 +106,8 @@ class AppleMaps extends Component {
 			color,
 			title,
 			subtitle,
-			selected
+			selected,
+			visible
 		})
 		glyphText ? (newAnnotation.glyphText = glyphText) : ''
 		this.map.showItems([newAnnotation])
@@ -118,7 +120,8 @@ class AppleMaps extends Component {
 			url,
 			selected,
 			title,
-			subtitle
+			subtitle,
+			visible
 		} = annotationOptions
 		let ImageAnnotation = mapkit.ImageAnnotation
 		let coords = new mapkit.Coordinate(longitude, latitude)
@@ -126,6 +129,7 @@ class AppleMaps extends Component {
 			title,
 			subtitle,
 			selected,
+			visible,
 			url: { 1: url }
 		})
 		this.map.showItems([newAnnotation])
