@@ -1,70 +1,95 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 class AppleMaps extends Component {
-  	componentDidMount(){
+	componentDidMount() {
 		const { token, children } = this.props
-		this.canvas = document.createElement("canvas")
+		this.canvas = document.createElement('canvas')
 		this.canvas.id = 'currentLocationOverride'
-    	mapkit.init({
-      		authorizationCallback: function (done) {
-        		done(token);
-      		}
-		});
-		
-    	this.map = new mapkit.Map("map");
+		mapkit.init({
+			authorizationCallback: function(done) {
+				done(token)
+			}
+		})
+
+		this.map = new mapkit.Map('map')
 
 		//	Annotations
-		if(children !== undefined && children.length){
+		if (children !== undefined && children.length) {
 			children.forEach(child => {
-				if(child.type.name === "Annotation"){
+				if (child.type.name === 'Annotation') {
 					this.createAnnotation(child.props)
 				}
 			})
-		}else if(children !== undefined && children.props){
-			if (children.type.name === "Annotation") {
+		} else if (children !== undefined && children.props) {
+			if (children.type.name === 'Annotation') {
 				this.createAnnotation(children.props)
 			}
 		}
 
+		//	Image Annotations
+		if (children !== undefined && children.length) {
+			children.forEach(child => {
+				if (child.type.name === 'ImageAnnotation') {
+					this.createImageAnnotation(child.props)
+				}
+			})
+		} else if (children !== undefined && children.props) {
+			if (children.type.name === 'ImageAnnotation') {
+				this.createImageAnnotation(children.props)
+			}
+		}
 
 		// Current Location Override
 		if (children !== undefined && children.length) {
 			children.forEach(child => {
-				if (child.type.name === "CurrentLocationOverride") {
+				if (child.type.name === 'CurrentLocationOverride') {
 					this.createCurrentLocationOverride(child.props)
 				}
 			})
 		} else if (children !== undefined && children.props) {
-			if (children.type.name === "CurrentLocationOverride") {
+			if (children.type.name === 'CurrentLocationOverride') {
 				this.createCurrentLocationOverride(children.props)
 			}
 		}
-				
+
 		//	Set main coords
 		this.setMainCoords()
 	}
 
-  	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps) {
 		const { children } = this.props
-		const checkLongitudeChange = children[0].props.longitude !== prevProps.children[0].props.longitude
-		const checkLatitudeChange = children[0].props.latitude !== prevProps.children[0].props.latitude
-		const checkDirectionChange = children[0].props.direction !== prevProps.children[0].props.direction
-  		if (checkLongitudeChange || checkLatitudeChange || checkDirectionChange) {
+		let checkLongitudeChange, checkLatitudeChange, checkDirectionChange
+		if (typeof children !== 'undefined') {
+			checkLongitudeChange =
+				children[0].props.longitude !==
+				prevProps.children[0].props.longitude
+			checkLatitudeChange =
+				children[0].props.latitude !==
+				prevProps.children[0].props.latitude
+			checkDirectionChange =
+				children[0].props.direction !==
+				prevProps.children[0].props.direction
+		}
+		if (
+			checkLongitudeChange ||
+			checkLatitudeChange ||
+			checkDirectionChange
+		) {
 			if (children !== undefined && children.length) {
 				children.forEach(child => {
-					if (child.type.name === "CurrentLocationOverride") {
+					if (child.type.name === 'CurrentLocationOverride') {
 						this.updateCurrentLocationOverride(child.props)
 					}
 				})
 			} else if (children !== undefined && children.props) {
-				if (children.type.name === "CurrentLocationOverride") {
+				if (children.type.name === 'CurrentLocationOverride') {
 					this.updateCurrentLocationOverride(children.props)
 				}
 			}
-  		}
-  	}
+		}
+	}
 
-	createAnnotation(annotationOptions){
+	createAnnotation(annotationOptions) {
 		const {
 			longitude,
 			latitude,
@@ -76,12 +101,33 @@ class AppleMaps extends Component {
 		} = annotationOptions
 		let MarkerAnnotation = mapkit.MarkerAnnotation
 		let coords = new mapkit.Coordinate(longitude, latitude)
-		let newAnnotation = new MarkerAnnotation(coords);
-		newAnnotation.color = color;
-		newAnnotation.title = title;
-		newAnnotation.subtitle = subtitle;
-		newAnnotation.selected = selected;
-		(glyphText) ? newAnnotation.glyphText = glyphText : ''
+		let newAnnotation = new MarkerAnnotation(coords, {
+			color,
+			title,
+			subtitle,
+			selected
+		})
+		glyphText ? (newAnnotation.glyphText = glyphText) : ''
+		this.map.showItems([newAnnotation])
+	}
+
+	createImageAnnotation(annotationOptions) {
+		const {
+			longitude,
+			latitude,
+			url,
+			selected,
+			title,
+			subtitle
+		} = annotationOptions
+		let ImageAnnotation = mapkit.ImageAnnotation
+		let coords = new mapkit.Coordinate(longitude, latitude)
+		let newAnnotation = new ImageAnnotation(coords, {
+			title,
+			subtitle,
+			selected,
+			url: { 1: url }
+		})
 		this.map.showItems([newAnnotation])
 	}
 
@@ -97,11 +143,11 @@ class AppleMaps extends Component {
 		this.currentLocation = new mapkit.Annotation(
 			coordinate,
 			() => {
-				let ctx = this.canvas.getContext("2d");
-				ctx.beginPath();
-				ctx.translate(150, 135);
-				ctx.rotate(options.data.direction * Math.PI / 180)
-				ctx.lineCap = "round";
+				let ctx = this.canvas.getContext('2d')
+				ctx.beginPath()
+				ctx.translate(150, 135)
+				ctx.rotate((options.data.direction * Math.PI) / 180)
+				ctx.lineCap = 'round'
 				ctx.moveTo(0, 7)
 				ctx.lineTo(10, 12)
 				ctx.lineTo(0, -13)
@@ -111,10 +157,10 @@ class AppleMaps extends Component {
 				ctx.strokeStyle = '#08F'
 				ctx.stroke()
 				ctx.fill()
-				return this.canvas;
+				return this.canvas
 			},
 			options
-		);
+		)
 		this.map.showItems([this.currentLocation])
 	}
 
@@ -124,18 +170,18 @@ class AppleMaps extends Component {
 		this.currentLocation.coordinate = coordinate
 	}
 
-	setMainCoords(){
+	setMainCoords() {
 		const { longitude, latitude } = this.props
-    	const mainCoords = new mapkit.CoordinateRegion(
-    		new mapkit.Coordinate(longitude, latitude),
-    		new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
-		);
-		this.map.region = mainCoords;
+		const mainCoords = new mapkit.CoordinateRegion(
+			new mapkit.Coordinate(longitude, latitude),
+			new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
+		)
+		this.map.region = mainCoords
 	}
 
-	zoomLevel(){
+	zoomLevel() {
 		const { zoomLevel } = this.props
-		switch(zoomLevel){
+		switch (zoomLevel) {
 			case 0:
 				return 300
 			case 1:
@@ -159,20 +205,18 @@ class AppleMaps extends Component {
 		}
 	}
 
-	  
-  	render() {
+	render() {
 		const { width, height } = this.props
-    	return (
-			<div 
-				id="map" 
+		return (
+			<div
+				id='map'
 				style={{
-					width: width, 
+					width: width,
 					height: height
 				}}
-			>
-			</div>
-    	);
-  	}
+			/>
+		)
+	}
 }
 
 AppleMaps.defaultProps = {
@@ -183,4 +227,4 @@ AppleMaps.defaultProps = {
 	latitude: -1.5491
 }
 
-export default AppleMaps;
+export default AppleMaps

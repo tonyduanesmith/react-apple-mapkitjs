@@ -41,5 +41,9 @@
     "webpack-dev-server": "^3.1.6"
   },
   "author": "tonyduanesmith",
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tonyduanesmith/react-apple-mapkitjs"
+  }
 }

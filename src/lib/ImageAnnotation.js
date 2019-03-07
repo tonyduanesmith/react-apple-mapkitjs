@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
-const Annotation = () => {
+const ImageAnnotation = () => {
 	return <Fragment />
 }
 
-export default Annotation
+export default ImageAnnotation

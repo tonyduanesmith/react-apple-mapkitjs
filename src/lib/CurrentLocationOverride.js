@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react'
 
-const CurrentLocationOverride = (props) => {
-    return(
-        <Fragment></Fragment>
-    )
+const CurrentLocationOverride = () => {
+	return <Fragment />
 }
 
 export default CurrentLocationOverride
