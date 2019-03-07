@@ -1,6 +1,6 @@
 {
   "name": "react-apple-mapkitjs",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A react wrapper for apple mapkit.js",
   "main": "lib/index.js",
   "scripts": {

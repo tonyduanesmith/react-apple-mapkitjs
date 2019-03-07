@@ -37,7 +37,7 @@ The only prop that is required is the token prop, without this you will get a "i
 If the access token is correct then the map will default to Leeds, UK
 ***
 ## Additional props and components
-The AppleMaps component takes additional props to adjust the map view and zoom level
+The AppleMaps component takes additional props to adjust the map view and zoom level, you can also specify a map width and height. It currently defaults to view height and width.
 
 ```jsx
     <AppleMaps
@@ -45,13 +45,15 @@ The AppleMaps component takes additional props to adjust the map view and zoom l
         longitude={30.8008}
         latitude={-1.5491}
         zoomLevel={1}
+        height='100px'
+        width='100px'
     />
 ```
 You can also use additional Annotation components to put customizable drop pins on your apple map. The Annotation Components must be child components of AppleMaps.
 
 First import both the AppleMaps and the Annotation component
 ```jsx
-import { AppleMaps, Annotation } from 'react-apple-mapkitjs'
+import { AppleMaps, Annotation, ImageAnnotation } from 'react-apple-mapkitjs'
 ```
 then add to your react application
 ```jsx
@@ -78,9 +80,21 @@ then add to your react application
         subtitle="work"
         selected={false}
     />
+    <ImageAnnotation 
+        longitude={53.8158}
+        latitude={-1.4017}
+        title="Cat Cafe"
+        subtitle="scholes"
+        selected={false}
+        url='./assets/cat.jpeg'
+        visible={false}
+    />
 </AppleMaps>
 ```
 Most of the props to the Annotation component are self explanatory
+***
+## Common Issues
+Map not visible but no console errors - Set the width and height of the map as it may be rendering at 0px x 0px
 ***
 ## Future Development
 
