@@ -26,19 +26,19 @@ function Demo() {
 				<ImageAnnotation 
 					longitude={53.8158}
 					latitude={-1.4017}
-					title="Cat"
-					subtitle="need feeding"
+					title="Cat Cafe"
+					subtitle="scholes"
 					selected={true}
 					url='./assets/cat.jpeg'
-					visible={true}
 				/>
 				<Annotation 
-					longitude={53.8158}
-					latitude={-1.5017}
-					color="#349576"
-					title="Droppin"
-					subtitle="home"
+					longitude={53.8058}
+					latitude={-1.5317}
+					color="red"
+					title="Rail Station"
+					subtitle="Leeds"
 					selected={false}
+					glyphImage='./assets/railicon.png'
 				/>
 				<CurrentLocationOverride 
 					longitude={53.7158}

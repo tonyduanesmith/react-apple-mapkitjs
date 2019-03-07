@@ -95,6 +95,7 @@ class AppleMaps extends Component {
 			latitude,
 			color,
 			glyphText,
+			glyphImage,
 			selected,
 			title,
 			subtitle,
@@ -110,6 +111,7 @@ class AppleMaps extends Component {
 			visible
 		})
 		glyphText ? (newAnnotation.glyphText = glyphText) : ''
+		glyphImage ? (newAnnotation.glyphImage = { 1: glyphImage }) : ''
 		this.map.showItems([newAnnotation])
 	}
 
