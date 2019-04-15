@@ -60,15 +60,17 @@ class AppleMaps extends Component {
 		const { children } = this.props
 		let checkLongitudeChange, checkLatitudeChange, checkDirectionChange
 		if (typeof children !== 'undefined') {
+			const firstChild = children[0] ? children[0] : children;
+			const prevFirstChild = prevProps.children[0] ? prevProps.children[0] : prevProps.children;
 			checkLongitudeChange =
-				children[0].props.longitude !==
-				prevProps.children[0].props.longitude
+				firstChild.props.longitude !==
+				prevFirstChild.props.longitude
 			checkLatitudeChange =
-				children[0].props.latitude !==
-				prevProps.children[0].props.latitude
+				firstChild.props.latitude !==
+				prevFirstChild.props.latitude
 			checkDirectionChange =
-				children[0].props.direction !==
-				prevProps.children[0].props.direction
+				firstChild.props.direction !==
+				prevFirstChild.props.direction
 		}
 		if (
 			checkLongitudeChange ||
