@@ -104,7 +104,7 @@ class AppleMaps extends Component {
 			visible
 		} = annotationOptions
 		let MarkerAnnotation = mapkit.MarkerAnnotation
-		let coords = new mapkit.Coordinate(longitude, latitude)
+		let coords = new mapkit.Coordinate(latitude, longitude)
 		let newAnnotation = new MarkerAnnotation(coords, {
 			color,
 			title,
@@ -128,7 +128,7 @@ class AppleMaps extends Component {
 			visible
 		} = annotationOptions
 		let ImageAnnotation = mapkit.ImageAnnotation
-		let coords = new mapkit.Coordinate(longitude, latitude)
+		let coords = new mapkit.Coordinate(latitude, longitude)
 		let newAnnotation = new ImageAnnotation(coords, {
 			title,
 			subtitle,
@@ -147,7 +147,7 @@ class AppleMaps extends Component {
 				direction: direction
 			}
 		}
-		const coordinate = new mapkit.Coordinate(longitude, latitude)
+		const coordinate = new mapkit.Coordinate(latitude, longitude)
 		this.currentLocation = new mapkit.Annotation(
 			coordinate,
 			() => {
@@ -174,14 +174,14 @@ class AppleMaps extends Component {
 
 	updateCurrentLocationOverride(locationOptions) {
 		const { longitude, latitude } = locationOptions
-		const coordinate = new mapkit.Coordinate(longitude, latitude)
+		const coordinate = new mapkit.Coordinate(latitude, longitude)
 		this.currentLocation.coordinate = coordinate
 	}
 
 	setMainCoords() {
 		const { longitude, latitude } = this.props
 		const mainCoords = new mapkit.CoordinateRegion(
-			new mapkit.Coordinate(longitude, latitude),
+			new mapkit.Coordinate(latitude, longitude),
 			new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
 		)
 		this.map.region = mainCoords
