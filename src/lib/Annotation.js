@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 
-const Annotation = () => {
+function Annotation() {
 	return <Fragment />
 }
 
 Annotation.defaultProps = {
-	visible: true
+	visible: true,
+	isAnnotation: true
 }
 
 export default Annotation

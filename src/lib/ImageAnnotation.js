@@ -5,7 +5,8 @@ const ImageAnnotation = () => {
 }
 
 ImageAnnotation.defaultProps = {
-	visible: true
+	visible: true,
+	isImageAnnotation: true
 }
 
 export default ImageAnnotation
