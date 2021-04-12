@@ -16,12 +16,12 @@ class AppleMaps extends Component {
 		//	Annotations
 		if (children !== undefined && children.length) {
 			children.forEach(child => {
-				if (child.type.name === 'Annotation') {
+				if (child.props.isAnnotation) {
 					this.createAnnotation(child.props)
 				}
 			})
 		} else if (children !== undefined && children.props) {
-			if (children.type.name === 'Annotation') {
+			if (children.props.isAnnotation) {
 				this.createAnnotation(children.props)
 			}
 		}
@@ -29,12 +29,12 @@ class AppleMaps extends Component {
 		//	Image Annotations
 		if (children !== undefined && children.length) {
 			children.forEach(child => {
-				if (child.type.name === 'ImageAnnotation') {
+				if (child.props.isImageAnnotation) {
 					this.createImageAnnotation(child.props)
 				}
 			})
 		} else if (children !== undefined && children.props) {
-			if (children.type.name === 'ImageAnnotation') {
+			if (children.props.isImageAnnotation) {
 				this.createImageAnnotation(children.props)
 			}
 		}
