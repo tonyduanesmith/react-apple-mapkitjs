@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 class AppleMaps extends Component {
 	componentDidMount() {
-		const { token, children } = this.props
+		const { token, children, initialMapType } = this.props
 		this.canvas = document.createElement('canvas')
 		this.canvas.id = 'currentLocationOverride'
 		mapkit.init({
@@ -12,6 +12,11 @@ class AppleMaps extends Component {
 		})
 
 		this.map = new mapkit.Map('map')
+
+		// Set initial mapType
+		if(initialMapType !== undefined) {
+			this.map.mapType = initialMapType
+		}
 
 		//	Annotations
 		if (children !== undefined && children.length) {
