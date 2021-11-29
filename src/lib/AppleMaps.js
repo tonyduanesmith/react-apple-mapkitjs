@@ -179,10 +179,10 @@ class AppleMaps extends Component {
 	}
 
 	setMainCoords() {
-		const { longitude, latitude } = this.props
+		const { longitude, latitude, spanLat, spanLong } = this.props
 		const mainCoords = new mapkit.CoordinateRegion(
 			new mapkit.Coordinate(latitude, longitude),
-			new mapkit.CoordinateSpan(this.zoomLevel(), this.zoomLevel())
+			new mapkit.CoordinateSpan(spanLat ? spanLat : this.zoomLevel(), spanLong ? spanLong : this.zoomLevel())
 		)
 		this.map.region = mainCoords
 	}
